@@ -22,6 +22,7 @@ var cars = [{
 //The `price` is updated from exercice 1
 //The `commission` is updated from exercice 3
 //The `options` is useful from exercice 4
+
 var rentals = [{
   'id': '1-pb-92',
   'driver': {
@@ -83,6 +84,7 @@ var rentals = [{
 
 //list of actors for payment
 //useful from exercise 5
+
 var actors = [{
   'rentalId': '1-pb-92',
   'payment': [{
@@ -156,16 +158,85 @@ var actors = [{
 
 //list of rental modifcation
 //useful for exercise 6
-var rentalModifications = [{
+var rentalModifications = [
+    {
   'rentalId': '1-pb-92',
   'returnDate': '2016-01-04',
   'distance': 150
 }, {
   'rentalId': '3-sa-92',
   'pickupDate': '2015-12-05'
-}];
+}
+];
+
+
+function price() {
+    //get rentalID 
+    //get pickup date and return date 
+    //get carID 
+    //get distance
+    //getprice per day and per km from carID 
+
+    //    for(var cars in Element )
+    
+    rentals.forEach( //see all rentals 
+        function getPrice(element) {
+
+            var carID = element.carId;
+            var distance = element.distance;
+           
+
+            var price = 0;
+
+            var priceperday = 0;
+            var priceperkm = 0;
+            var price_time = 0;
+            var price_km = 0;
+           var day_rentals = 0;
+           
+           
+            //get price per day and price per km 
+            cars.forEach(function getPricePerDay(car) { //see all cars 
+                if (carID == car.id) { //if carID = car.id === same car 
+                    priceperday= car.pricePerDay;
+                   priceperkm= car.pricePerKm;
+                }
+            })
+
+            // region price per day 
+            var pickupDate = new Date(element.pickupDate);
+            var returnDate = new Date(element.returnDate);
+            var differenceMillisecond = returnDate - pickupDate;
+            day_rentals = differenceMillisecond / (24 * 60 * 60 * 1000);
+            if (day_rentals == 0) { price_time = priceperday; } //if one day location, one day price
+            else { price_time = day_rentals * priceperday; }
+            // ------------------------
+
+            //region price per km 
+
+            price_km = distance * priceperkm;
+
+            //----------------------------
+
+            
+            price = price_km + price_time;
+
+            console.log(price);
+
+
+
+
+        }
+        )
+}
+
 
 console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
+//console.log(price);
+price();
+//cars.forEach(price);
+
+//rentals.forEach(function(element){console.log(element);}) //get each elements of rentals and print them on log console 

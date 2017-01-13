@@ -182,6 +182,7 @@ function price() {
     rentals.forEach( //see all rentals 
         function getPrice(element) {
 
+            document.write("<p>");
             var carID = element.carId;
             var distance = element.distance;
            
@@ -192,14 +193,16 @@ function price() {
             var priceperkm = 0;
             var price_time = 0;
             var price_km = 0;
-           var day_rentals = 0;
+            var day_rentals = 0;
+            var name_vehicle=element.carId;
            
            
             //get price per day and price per km 
             cars.forEach(function getPricePerDay(car) { //see all cars 
                 if (carID == car.id) { //if carID = car.id === same car 
                     priceperday= car.pricePerDay;
-                   priceperkm= car.pricePerKm;
+                    priceperkm = car.pricePerKm;
+                    if(car.vehicule!=null){name_vehicle = car.vehicule;}
                 }
             })
 
@@ -220,14 +223,18 @@ function price() {
 
             
             price = price_km + price_time;
+            element.price = price;
 
-            console.log(price);
+            // console.log(price);
+            
+            document.write("car  : "+name_vehicle+" driver firstname : " + element.driver.firstName + " lastname : " + element.driver.lastName + " pickupDate : " + element.pickupDate + " returnDate : " + element.returnDate + " Distance :" + element.distance + " Price : " + element.price + " commission : " + element.commission);
 
 
-
-
+            document.write("</p>");
         }
+
         )
+
 }
 
 

@@ -170,6 +170,19 @@ var rentalModifications = [
 ];
 
 
+function getNbrDay(rentalsID) { //did at exercice 3  so not change for exercice 2 
+
+    var day_rentals = 0;
+    rentals.forEach(function (rent) {
+        if(rent.id==rentalsID){
+        var pickupDate = new Date(rent.pickupDate);
+        var returnDate = new Date(rent.returnDate);
+        var differenceMillisecond = returnDate - pickupDate;
+        day_rentals = differenceMillisecond / (24 * 60 * 60 * 1000);}
+    })
+    return day_rentals;
+}
+
 function price() {
     //    for(var cars in Element )
     rentals.forEach( //see all rentals 
@@ -236,51 +249,97 @@ function price() {
 }
 
 function exercice3() {
-    var price = 0;
-    var part_insurance = 0.50;
+    var commission = 0;
+    var owner = 0;
+    var Driver
+    var pourcent_insurance = 0.50;
     var insurance = 0;
     var roadside_assistance = 0;
+    var drivy=0;
     var nbDay = 1;
 
     rentals.forEach( //get price and nbrday
         function (rent) {
-            price = rent.price;
-            if (getNbrDay(rent.id) != 0) { nbDay = getNbrDay(rent.id);}
-        }
-        )
-    console.log(price);
-    roadside_assistance = nbDay; 
-    insurance = price * part_insurance;
-    price = price - (insurance + roadside_assistance);
+            commission = rent.price * 0.30; //30 pourcent of price
+            Driver = rent.price;
+            owner = rent.price - commission;
+            if (getNbrDay(rent.id) != 0) { nbDay = getNbrDay(rent.id); }
 
-    actors.forEach(
-        function(acto){
+            
+            roadside_assistance = nbDay;
+            insurance = commission * pourcent_insurance; //50 % of commission 
+            drivy = commission - (insurance + roadside_assistance); //drivy rest 
+            
+
+            actors.forEach(
+
+            
+        function (acto) {
+            if (rent.id == acto.rentalId) {//if same id, put insurance ect inside 
+                acto.payment.forEach(
+                    function (paymentActor) {
+                        if (paymentActor.who == "insurance") { paymentActor.amount = insurance;  }
+                        else if (paymentActor.who == "assistance") { paymentActor.amount = roadside_assistance;  }
+                        else if (paymentActor.who == "drivy") { paymentActor.amount = drivy; }
+                        else if (paymentActor.who == "owner") { paymentActor.amount = owner; }
+                        else if (paymentActor.who == "driver") { paymentActor.amount = Driver; }
+                      }
+                    )
+            }
                 //get id, modify amount
         }
         )
+
+
+        }
+        )
+  
+
+   
     }
 
+function exercice4() {
+    var amount_option = 4;
 
-
-function getNbrDay(rentalsID) { //did at exercice 3  so not change for exercice 2 
-
-    var day_rentals = 0;
     rentals.forEach(function (rent) {
-        var pickupDate = new Date(rent.pickupDate);
-        var returnDate = new Date(rent.returnDate);
-        var differenceMillisecond = returnDate - pickupDate;
-        day_rentals = differenceMillisecond / (24 * 60 * 60 * 1000);
-    })
-    return day_rentals;
+        var nbrDay = getNbrDay(rent.id);
+        if (nbrDay != 0) { amount_option = amount_option * nbrDay; }
+
+        if (rent.options.deductibleReduction) { //if assurance modify amount of driver and drivy 
+
+            actors.forEach(function (acto) {
+                if (rent.id == acto.rentalId) {//if same id, put insurance ect inside 
+                    acto.payment.forEach(
+                        function (paymentActor) {
+                            if (paymentActor.who == "driver") { paymentActor.amount = paymentActor.amount + amount_option; }
+                            else if (paymentActor.who == "drivy") { paymentActor.amount = paymentActor.amount + amount_option; }
+                        }
+                        )
+                }
+            })
+        }
+
+
+
+
+        })
+    
 }
+
+
+//execution of function for exercices 
+price();
+exercice3();
+exercice4();
+
+
 
 console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
-//console.log(price);
-price();
-exercice3();
-//cars.forEach(price);
+
+
+
 
 //rentals.forEach(function(element){console.log(element);}) //get each elements of rentals and print them on log console 

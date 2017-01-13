@@ -326,11 +326,41 @@ function exercice4() {
     
 }
 
+function exercice5() {
+    //because i do the things by ohter way, i modify actor before commission in rentals object. so i just put value from actors in rentals
+    rentals.forEach( 
+        function (rent) {
+            actors.forEach(
+
+
+                    function (acto) {
+                        if (rent.id == acto.rentalId) {//if same id, put insurance ect inside 
+                            acto.payment.forEach(
+                                function (paymentActor) {
+                                    if (paymentActor.who == "insurance") { rent.commission.insurance = paymentActor.amount; }
+                                    else if (paymentActor.who == "assistance") { rent.commission.assistance = paymentActor.amount; }
+                                    else if (paymentActor.who == "drivy") { rent.commission.drivy = paymentActor.amount; }
+                                   
+                                }
+                                )
+                        }
+                        //get id, modify amount
+                    }
+                    )
+
+
+        }
+        )
+
+
+
+    }
 
 //execution of function for exercices 
 price();
 exercice3();
 exercice4();
+exercice5();
 
 
 

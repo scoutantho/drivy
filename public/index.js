@@ -188,7 +188,7 @@ function price() {
     rentals.forEach( //see all rentals 
         function getPrice(element) {
 
-            document.write("<p>");
+           
             var carID = element.carId;
             var distance = element.distance;
            
@@ -200,7 +200,7 @@ function price() {
             var price_time = 0;
             var price_km = 0;
             var day_rentals = 0;
-            var name_vehicle=element.carId;
+           
            
            
             //get price per day and price per km 
@@ -208,7 +208,6 @@ function price() {
                 if (carID == car.id) { //if carID = car.id === same car 
                     priceperday= car.pricePerDay;
                     priceperkm = car.pricePerKm;
-                    if(car.vehicule!=null){name_vehicle = car.vehicule;}
                 }
             })
 
@@ -240,10 +239,7 @@ function price() {
 
             // console.log(price);
             
-            document.write("car  : "+name_vehicle+" driver firstname : " + element.driver.firstName + " lastname : " + element.driver.lastName + " pickupDate : " + element.pickupDate + " returnDate : " + element.returnDate + " Distance :" + element.distance + " Price : " + element.price + " commission : " + element.commission);
-
-
-            document.write("</p>");
+          
         }
         )
 }
@@ -356,13 +352,23 @@ function exercice5() {
 
     }
 
+function affichage(element) {
+    document.write("<p>");
+    var name_vehicle = element.carId;
+    cars.forEach(function(car){  if (car.vehicule != null && car.id==element.carId) { name_vehicle = car.vehicule; }})
+    document.write("car  : ".fontcolor("red") + name_vehicle + " driver firstname : ".fontcolor("red") + element.driver.firstName + " lastname : ".fontcolor("red") + element.driver.lastName + " pickupDate : ".fontcolor("red") + element.pickupDate + " returnDate : ".fontcolor("red") + element.returnDate + " Distance : ".fontcolor("red") + element.distance + " Price : ".fontcolor("red") + element.price + " commission : ".fontcolor("green")+" assistance :".fontcolor("red") + element.commission.assistance + " drivy : ".fontcolor("red") + element.commission.drivy + " insurance : ".fontcolor("red") + element.commission.insurance);
+
+
+    document.write("</p>");
+
+}
 //execution of function for exercices 
 price();
 exercice3();
 exercice4();
 exercice5();
 
-
+rentals.forEach(affichage);
 
 console.log(cars);
 console.log(rentals);

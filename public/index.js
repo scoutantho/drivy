@@ -213,6 +213,13 @@ function price() {
             day_rentals = differenceMillisecond / (24 * 60 * 60 * 1000);
             if (day_rentals == 0) { price_time = priceperday; } //if one day location, one day price
             else { price_time = day_rentals * priceperday; }
+
+            //price per day exe 2 
+
+            if (day_rentals > 1 && day_rentals < 5) { price_time = (price_time - (price_time * 0.10));}
+            else if (day_rentals > 4 && day_rentals < 11) { price_time = (price_time - (price_time * 0.30)); }
+            else if (day_rentals > 10) { price_time = (price_time - (price_time * 0.50)); }
+
             // ------------------------
 
             //region price per km 

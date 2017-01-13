@@ -171,14 +171,7 @@ var rentalModifications = [
 
 
 function price() {
-    //get rentalID 
-    //get pickup date and return date 
-    //get carID 
-    //get distance
-    //getprice per day and per km from carID 
-
     //    for(var cars in Element )
-    
     rentals.forEach( //see all rentals 
         function getPrice(element) {
 
@@ -239,11 +232,47 @@ function price() {
 
             document.write("</p>");
         }
-
         )
-
 }
 
+function exercice3() {
+    var price = 0;
+    var part_insurance = 0.50;
+    var insurance = 0;
+    var roadside_assistance = 0;
+    var nbDay = 1;
+
+    rentals.forEach( //get price and nbrday
+        function (rent) {
+            price = rent.price;
+            if (getNbrDay(rent.id) != 0) { nbDay = getNbrDay(rent.id);}
+        }
+        )
+    console.log(price);
+    roadside_assistance = nbDay; 
+    insurance = price * part_insurance;
+    price = price - (insurance + roadside_assistance);
+
+    actors.forEach(
+        function(acto){
+                //get id, modify amount
+        }
+        )
+    }
+
+
+
+function getNbrDay(rentalsID) { //did at exercice 3  so not change for exercice 2 
+
+    var day_rentals = 0;
+    rentals.forEach(function (rent) {
+        var pickupDate = new Date(rent.pickupDate);
+        var returnDate = new Date(rent.returnDate);
+        var differenceMillisecond = returnDate - pickupDate;
+        day_rentals = differenceMillisecond / (24 * 60 * 60 * 1000);
+    })
+    return day_rentals;
+}
 
 console.log(cars);
 console.log(rentals);
@@ -251,6 +280,7 @@ console.log(actors);
 console.log(rentalModifications);
 //console.log(price);
 price();
+exercice3();
 //cars.forEach(price);
 
 //rentals.forEach(function(element){console.log(element);}) //get each elements of rentals and print them on log console 

@@ -363,6 +363,97 @@ function affichage(element) {
 
 }
 //execution of function for exercices 
+
+function RentModification(rentID, newDate, newDistance) {
+    var newprice;
+    var deltaOwner, deltaInsurance, deltaAssistance, deltaDrivy, deltaDriver;
+    var firstOwner, firstInsurance, firstAssistance, firstDrivy, firstDriver; //get precedent
+    var newOwner, newInsurance, newAssistance, newDrivy, newDriver;
+    var commission = 0; var pourcent_insurance = 0.50; var nbDay = 1;
+
+    rentals.forEach(function (rent) {
+
+        if (rent.id == rentID) {
+        actors.forEach(function(acto){
+            if( rent.id==acto.rentalId){
+                acto.payment.forEach(function (paymentActors) {
+                    if (paymentActor.who == "insurance") { firstInsurance = paymentActor.amount; }
+                    else if (paymentActor.who == "assistance") { firstAssistance = paymentActor.amount; }
+                    else if (paymentActor.who == "drivy") { firstDrivy = paymentActor.amount; }
+                    else if (paymentActor.who == "driver") { firstDriver = paymentActor.amount; }
+                    else if (paymentActor.who == "owner") { firstOwner = paymentActor.amount; }
+                }
+                )
+            }
+            
+        }
+        ) // get actors amoun
+      //region get new price possible put into one function 
+        var carID = rent.carId;
+        var distance =newDistance;
+           
+        var priceperday = 0;
+        var priceperkm = 0;
+        var price_time = 0;
+        var price_km = 0;
+        var day_rentals = 0;
+           
+           
+           
+        //get price per day and price per km 
+        cars.forEach(function getPricePerDay(car) { //see all cars 
+            if (carID == car.id) { //if carID = car.id === same car 
+                priceperday= car.pricePerDay;
+                priceperkm = car.pricePerKm;
+            }
+        })
+
+        // region price per day 
+        var precedentDate = new Date(rent.returnDate);
+        var newDateReturn = new Date(newDate);
+        var differenceMillisecond = newDateReturn - precedentDate;
+        day_rentals = differenceMillisecond / (24 * 60 * 60 * 1000);
+        if (day_rentals == 0) { price_time = priceperday; } //if one day location, one day price
+        else { price_time = day_rentals * priceperday; }
+
+        //price per day exe 2 
+
+        if (day_rentals > 1 && day_rentals < 5) { price_time = (price_time - (price_time * 0.10));}
+        else if (day_rentals > 4 && day_rentals < 11) { price_time = (price_time - (price_time * 0.30)); }
+        else if (day_rentals > 10) { price_time = (price_time - (price_time * 0.50)); }
+
+        // ------------------------
+
+        //region price per km 
+        price_km = distance * priceperkm;
+        //----------------------------
+    
+        newprice = price_km + price_time;
+        
+            //---------------------------------------------------------
+       
+        commission = newprice * 0.30; //30 pourcent of price
+        newDriver = newprice;
+        newOwner = newprice - commission;
+        newInsurance = commission * pourcent_insurance;
+        newDrivy = commission - (newInsurance + day_rentals);
+
+        deltaOwner = newOwner - firstOwner;
+        deltaInsurance = newInsurance - firstInsurance;
+        deltaAssistance = newAssistance - firstAssistance;
+        deltaDriver = newDriver - firstDriver;
+        deltaDrivy = newDrivy - firstDrivy;
+
+    }
+        
+    }
+        )
+
+    }
+    
+
+
+
 price();
 exercice3();
 exercice4();
